@@ -1,10 +1,7 @@
 // services/api.js
-// В будущем здесь будет реальное подключение к БД
+const API_BASE_URL = "http://localhost:3001/api";
 
-const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:3001/api";
-
-// Мок-функция для имитации API (временно)
+// Мок-функция для имитации API
 export const mockFetch = (url, options) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -31,6 +28,17 @@ export const mockFetch = (url, options) => {
             deletedId: body?.agentId,
           }),
         });
+      } else if (url === "/api/interrupt-agent") {
+        const body = options?.body ? JSON.parse(options.body) : null;
+        resolve({
+          ok: true,
+          json: async () => ({
+            success: true,
+            message: `Агент ${body?.agentId} прерван`,
+            agentId: body?.agentId,
+            interruptedTask: body?.taskName,
+          }),
+        });
       } else if (url === "/api/agents") {
         resolve({
           ok: true,
@@ -48,6 +56,7 @@ export const mockFetch = (url, options) => {
                 "Загрузка конфигурации",
                 "Проверка соединений",
               ],
+              canBeInterrupted: true,
             },
             {
               id: 2,
@@ -62,6 +71,7 @@ export const mockFetch = (url, options) => {
                 "Сохранение результатов",
                 "Отправка уведомления",
               ],
+              canBeInterrupted: false,
             },
             {
               id: 3,
@@ -72,6 +82,7 @@ export const mockFetch = (url, options) => {
               cpu: 5,
               memory: 256,
               tasksQueue: [],
+              canBeInterrupted: true,
             },
             {
               id: 4,
@@ -82,6 +93,7 @@ export const mockFetch = (url, options) => {
               cpu: 0,
               memory: 128,
               tasksQueue: ["Переподключение", "Проверка целостности"],
+              canBeInterrupted: true,
             },
           ],
         });
@@ -149,11 +161,8 @@ export const mockFetch = (url, options) => {
   });
 };
 
-// Реальные функции для работы с БД (будет реализовано позже)
 export const api = {
-  // Агенты
   getAgents: async () => {
-    // TODO: Заменить на реальный запрос к БД
     const response = await mockFetch("/api/agents");
     return response.json();
   },
@@ -171,14 +180,20 @@ export const api = {
     return response.json();
   },
 
+  interruptAgent: async (agentId, taskName) => {
+    const response = await mockFetch("/api/interrupt-agent", {
+      method: "POST",
+      body: JSON.stringify({ agentId, taskName }),
+    });
+    return response.json();
+  },
+
   getAgentHeartbeat: async (agentId) => {
     const response = await mockFetch(`/api/agents/${agentId}/heartbeat`);
     return response.json();
   },
 
-  // Задачи
   createTask: async (taskData) => {
-    // TODO: Отправка задачи в БД
     const response = await mockFetch("/api/create-task", {
       method: "POST",
       body: JSON.stringify(taskData),

@@ -1,8 +1,7 @@
-// Стили (простые inline для наглядности)
-import React from "react";
+// styles/buttons.jsx
 const styles = {
   container: {
-    maxWidth: "800px",
+    maxWidth: "1200px",
     margin: "0 auto",
     padding: "20px",
     fontFamily: "Arial, sans-serif",
@@ -12,6 +11,7 @@ const styles = {
     padding: "15px",
     border: "1px solid #ddd",
     borderRadius: "8px",
+    backgroundColor: "#fff",
   },
   button: {
     padding: "8px 16px",
@@ -21,18 +21,31 @@ const styles = {
     borderRadius: "4px",
     color: "white",
   },
-  buttonPrimary: { backgroundColor: "#007bff" },
-  buttonSuccess: { backgroundColor: "#28a745" },
-  buttonDanger: { backgroundColor: "#dc3545" },
-  buttonDisabled: { backgroundColor: "#ccc", cursor: "not-allowed" },
-  select: { marginRight: "10px", padding: "6px" },
-  itemsList: { listStyle: "none", padding: 0 },
+  buttonPrimary: {
+    backgroundColor: "#007bff",
+  },
+  buttonDanger: {
+    backgroundColor: "#dc3545",
+  },
+  buttonSuccess: {
+    backgroundColor: "#28a745",
+  },
+  select: {
+    padding: "6px",
+    marginRight: "10px",
+    borderRadius: "4px",
+    border: "1px solid #ddd",
+  },
+  itemsList: {
+    listStyle: "none",
+    padding: 0,
+    margin: 0,
+  },
   item: {
     padding: "10px",
     margin: "5px 0",
     backgroundColor: "#f8f9fa",
     borderRadius: "4px",
-    cursor: "pointer",
     transition: "0.2s",
   },
   modalOverlay: {
@@ -45,6 +58,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    zIndex: 1000,
   },
   modalContent: {
     backgroundColor: "white",
@@ -52,7 +66,12 @@ const styles = {
     borderRadius: "8px",
     minWidth: "300px",
     maxWidth: "500px",
+    maxHeight: "80vh",
+    overflowY: "auto",
   },
-  queueList: { paddingLeft: "20px" },
+  queueList: {
+    paddingLeft: "20px",
+  },
 };
+
 export default styles;
